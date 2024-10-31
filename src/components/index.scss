@@ -1,3 +1,4 @@
+$primary-darkColor: #745dff;
 .text-area{
     border: none;
     resize: none;
@@ -6,8 +7,9 @@
     width: 100%;
     padding: 10px 0;
     border: none;
-    min-height: 221px;
-    max-height: auto;
+    // min-height: 221px;
+    // max-height: auto;
+    overflow: hidden;
     &::-webkit-scrollbar{
         display: none;
     }
@@ -17,5 +19,26 @@
     &::placeholder{
        color: #d8d6d6; 
        font-family: sans-serif;
+    }
+}
+
+.btn{
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 25px;
+    font-weight: 700;
+    font-style: italic;
+    padding: 12px 70px;
+    border-radius: 3px;
+    &:hover{
+        color: $primary-darkColor;
+        border-color: $primary-darkColor;
+        text-shadow: 1px 0px 1px $primary-darkColor;
+        box-shadow: 1px 1px 0px 0px $primary-darkColor;
+    }
+    &:active{
+        color: white;
+        background-image: linear-gradient(to bottom, #864bff, #5082ff);
     }
 }

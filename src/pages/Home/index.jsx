@@ -3,9 +3,11 @@ import './css/style.scss'
 import { BsTextLeft } from "react-icons/bs";
 import { PiFileTextDuotone } from "react-icons/pi";
 import Textarea from '../../components/Textarea';
+import Button from '../../components/Button';
 
 function Home() {
     const[type, setType] = useState('text');
+    const[text, setText] = useState('')
   return (
     <div className='container'>
         <div className='header-bar'>
@@ -39,7 +41,11 @@ function Home() {
                         <div className='text-section'>
                             <h1>Text</h1>
                             <div className='resize-section'>
-                                <Textarea />
+                                <Textarea value={text} onChange={(e) => setText(e.target.value)} />
+                            </div>
+                            <div className='save-btn'>
+                                <span>Clear</span>
+                                <Button title={'Save'} disabled={!text} />
                             </div>
                         </div>
                     ) :
