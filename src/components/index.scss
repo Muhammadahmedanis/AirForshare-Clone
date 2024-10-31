@@ -1,0 +1,21 @@
+.text-area{
+    border: none;
+    resize: none;
+    font-size: 25px;
+    letter-spacing: -.7px;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    min-height: 221px;
+    max-height: auto;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    &:focus {
+        outline: none;
+    }
+    &::placeholder{
+       color: #d8d6d6; 
+       font-family: sans-serif;
+    }
+}
