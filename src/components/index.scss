@@ -2,13 +2,11 @@ $primary-darkColor: #745dff;
 .text-area{
     border: none;
     resize: none;
-    font-size: 25px;
+    font-size: 22px;
     letter-spacing: -.7px;
     width: 100%;
     padding: 10px 0;
     border: none;
-    // min-height: 221px;
-    // max-height: auto;
     overflow: hidden;
     &::-webkit-scrollbar{
         display: none;
@@ -40,5 +38,62 @@ $primary-darkColor: #745dff;
     &:active{
         color: white;
         background-image: linear-gradient(to bottom, #864bff, #5082ff);
+    }
+}
+
+.drop-zone{
+    width: 100%;
+    height: 65%;
+    border: 2px dotted rgba(158, 161, 161, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+    font-weight: lighter;
+    line-height: 30px;
+    div {
+        padding: 0 20%;
+        color: rgba(158, 161, 161, 0.666);
+        cursor: pointer;
+        span {
+            color: $primary-darkColor;
+        }
+    }
+}
+
+.files-list{
+    display: flex;
+    flex-wrap: wrap;
+    // gap: 5px;
+    div{
+        width: 90px;
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        row-gap: 10px;
+        padding: 10px;
+        cursor: pointer;
+        &:hover{
+            background-color: #f4f4f4;
+        }
+    }
+}
+
+.addMore-file{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 20px;
+    svg{
+        margin-bottom: 10px;
+    }
+    p{
+        margin: 0px;
+        font-size: 13px;
+        font-weight: 550;
+        color: rgba(158, 161, 161, 0.9);
     }
 }

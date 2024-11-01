@@ -10,7 +10,7 @@ body{
 .container{
     width: 64%;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: 20px;
 }
 .header-bar{
     display: flex;
@@ -54,10 +54,11 @@ body{
     border-radius: 2px;
     box-shadow: 0 21px 33px 0 rgba(0, 0, 0, 0.1);
     .card-sidebar{
-        padding: 10px 0;
+        // padding: 10px 0;
         background-color: #f4f4f4;
-        margin-right: 35px;
+        // margin-right: 35px;
         cursor: pointer;
+        
         div{
             padding: 15px 0;
             svg{
@@ -73,10 +74,41 @@ body{
         }
     }
 }
+@media (max-width: 600px) {
+    .container{
+        width: 100%;
+    }
+    .main-card{
+        flex-direction: column;
+    }
+    .card-sidebar{
+        display: flex;
+        justify-content: flex-end;
+        // margin: 0px;
+    }
+    .card-container{
+        width: auto !important;
+    }
+}
+
+.npm__react-simple-code-editor__textarea{
+    border: none;
+    overflow: hidden;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    &:focus {
+        outline: none;
+    }
+    &::placeholder{
+    color: #d8d6d6; 
+    font-family: sans-serif;
+    }
+}
 
 .card-container{
     border: 1px solid #fff;
-    padding: 0 50px;
+    padding: 0 50px 30px 50px;
     width: 100%;
     div{
         h1{
@@ -85,6 +117,7 @@ body{
             line-height: .85;
             letter-spacing: .6px;
             margin-bottom: 28px;
+            // margin-top: -50px;
         }
     }
     .text-section{
@@ -95,14 +128,66 @@ body{
         .resize-section{
             flex: 1;
             width: 100%;
+            // div{
+                // font-size: 20px !important;
+                // letter-spacing: -.7px !important;
+                // width: 100% !important;
+                // padding: 10px 0 !important;
+            // }
         }
         .save-btn{
-            padding-bottom: 30px;
+            // padding-bottom: 30px;
             text-align: right;
             span{
+                cursor: pointer;
                 font-size: 17px;
                 font-weight: 700;
                 margin-right: 40px;
+            }
+        }
+        .text-footer{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            div {
+                margin-bottom: 5px;
+                a {
+                    font-size: 22px;
+                }
+            }
+            .links{
+                flex: 1;
+            }
+        }
+    }
+    .file-section{
+        height: 100%;
+        .files-header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .files-btn{
+                display: flex;
+                align-items: center;
+                column-gap: 20px;
+                div {
+                    display: flex;
+                    gap: 7px;
+                    align-items: center;
+                    cursor: pointer;
+                    &:active{
+                        opacity: 0.5;
+                    }
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+                .download-btn{
+                    color: #638eff;
+                }
+                .delete-btn{
+                    color: #963a45;
+                }
             }
         }
     }
