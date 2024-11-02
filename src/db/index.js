@@ -1,20 +1,22 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, onValue, remove} from "firebase/database";
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCtgv1FPnNiCk4HFsdk6IVWHeTh94U9ra0",
-  authDomain: "reactweb-917b9.firebaseapp.com",
-  projectId: "reactweb-917b9",
-  storageBucket: "reactweb-917b9.firebasestorage.app",
-  messagingSenderId: "1095454474692",
-  appId: "1:1095454474692:web:46866365c4fdafc732a491",
-  measurementId: "G-CM3ZNENJCV",
-  databaseURL: "https://reactweb-917b9-default-rtdb.asia-southeast1.firebasedatabase.app"
+  apiKey: "AIzaSyACCtcd3lHWmCOzEjdEkuHiVChM9OPZ5Sw",
+  authDomain: "e-commerce-2e835.firebaseapp.com",
+  projectId: "e-commerce-2e835",
+  storageBucket: "e-commerce-2e835.appspot.com",
+  messagingSenderId: "300471620069",
+  appId: "1:300471620069:web:1ee99df1e0403a7cb89f0c",
+  measurementId: "G-K4JSXYBCQC",
+  databaseURL: "https://e-commerce-2e835-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
+const storage = getStorage();
 
 export {
     app, 
@@ -23,4 +25,10 @@ export {
     set,
     onValue,
     remove,
+    storage,
+    getStorage,
+    storageRef,
+    uploadBytesResumable, 
+    getDownloadURL,
+    
 }
