@@ -97,3 +97,12 @@ $primary-darkColor: #745dff;
         color: rgba(158, 161, 161, 0.9);
     }
 }
+.temp-file{
+    filter: brightness(40%);
+    position: relative;
+    .loader{
+        width: 30%;
+        height: 30%;
+        position: absolute;
+    }
+}
