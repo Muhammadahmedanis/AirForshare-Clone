@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './css/style.scss' 
+import { db, ref, set, onValue, remove, storage, uploadBytesResumable, storageRef, getDownloadURL} from '../../db';
 import { BsTextLeft } from "react-icons/bs";
 import { PiFileTextDuotone } from "react-icons/pi";
 import Textarea from '../../components/Textarea';
@@ -8,9 +8,13 @@ import DropZone from '../../components/DropZone';
 import FileList from '../../components/FileList';
 import { FaDownload } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
-import { db, ref, set, onValue, remove, storage, uploadBytesResumable, storageRef, getDownloadURL} from '../../db';
+import TogglrButton from '../../components/TogglrButton';
+import { ThemeProvider } from '../../context/ThemeContext';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import CodeEditor from '../../components/CodeEditor';
-// import JSZip from  'jszip';
+import './css/style.scss' 
+import { Link } from 'react-router-dom';
+import About from '../../components/About';
 
 function Home() {
     const[type, setType] = useState('text');
@@ -18,6 +22,29 @@ function Home() {
     const[file, setFile] = useState([]);
     const[isText, setIsText] = useState(false);
     const[tempFile, setTempFile] = useState([]);
+    const[themeMode, setThemeMode] = useState('light');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const lightTheme = () => {
+        setThemeMode('light')
+    }
+    const darkTheme = () => {
+        setThemeMode('dark')
+    }
+    useEffect(() => {
+        if(themeMode ===  'dark'){
+            document.getElementsByTagName('body')[0].style.backgroundColor = 'rgb(0 0 0 / 65%)';
+            document.getElementsByTagName('body')[0].style.color = 'white';
+        }else{
+            document.getElementsByTagName('body')[0].style.backgroundColor = 'white';
+            document.getElementsByTagName('body')[0].style.color = 'black';
+        }
+    }, [themeMode])
+
 
     const onDrop = async (acceptedFiles) => {
         setTempFile((prevTempFile) => [...prevTempFile, ...acceptedFiles])
@@ -84,30 +111,6 @@ function Home() {
         setFile([]);
     }
 
-    // const downloadAll = () => {
-    //     let filename = "MultiFilesDownload";
-    //     const urls = file?.map(val => val.url)
-    //       const zip = new JSZip()
-    //       const folder = zip.folder('project')
-    //       urls.forEach((url)=> {
-    //      const blobPromise =  fetch(url)    
-    //   .then(function (response) {  
-    //     console.log({response})             
-    //       if (response.status === 200 || response.status === 0) {
-    //           return Promise.resolve(response.blob());
-    //       } else {
-    //           return Promise.reject(new Error(response.statusText));
-    //       }
-    //   })                          
-    //    const name = url.substring(url.lastIndexOf('/'))
-    //           folder.file(name, blobPromise)
-    //       })
-      
-    //       zip.generateAsync({type:"blob"})
-    //           .then(blob => saveAs(blob, filename))
-    //           .catch(e => console.log(e));
-    // }
-
     useEffect(() => {
         const textRef = ref(db, 'text-sharing');
         onValue(textRef, (snapshot) => {
@@ -127,33 +130,55 @@ function Home() {
 
     }, [])
 
-    const links = text?.match(/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g)
-
+  const links = text?.match(/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g)
   return (
-    <div className='container'>
-        <div className='header-bar'>
+    <ThemeProvider value={{themeMode, lightTheme, darkTheme}}>
+    <div  className='container'>
+    <div className='header-bar'>
             <div className='logo'>
-                <img src="https://www.airforshare.com/assets/img/logo.svg" alt="" />
+                <img src="https://www.airforshare.com/assets/img/logo.svg" alt="Logo" />
             </div>
-            <div className='menu-bar'>
+
+            {/* Full-screen menu for larger screens */}
+            <div className="menu-bar">
                 <ul>
-                    <li>How it works</li>
-                    <li>Downloads</li>
-                    <li>Upgrade</li>
-                    <li>Feedback</li>
-                    <li className='login-btn'>Code Snipet</li>
+                    <li className='login-btn'>Home</li>
+                    <Link to={"about"}><li style={{ color: themeMode !== 'light' ? 'white' : 'black' }}>How it works</li></Link>
+                    {/* <li style={{ color: themeMode !== 'light' ? 'white' : 'black' }}>Downloads</li> */}
+                    <li><TogglrButton /></li>
+                </ul>
+            </div>
+
+            {/* Hamburger icon for small screens */}
+            <div className='hamburger' onClick={toggleMenu}>
+                <FaBars size={24} />
+            </div>
+
+            {/* Sidebar menu for small screens */}
+            <div className={`sidebar-menu ${isMenuOpen ? 'open' : ''}`}>
+                <div className="close-btn" onClick={toggleMenu}>
+                    <FaTimes size={24} />
+                </div>
+                <ul>
+                    <li className='login-btn'>Home</li>
+                    <Link to={"about"}><li style={{ color: themeMode !== 'light' ? 'white' : 'black' }}>How it works</li></Link>
+                    {/* <li style={{ color: themeMode !== 'light' ? 'white' : 'black' }}>Downloads</li> */}
+                    <li><TogglrButton /></li>
                 </ul>
             </div>
         </div>
 
-        <div className='main-card'>
-            <div className='card-sidebar'>
-                <div onClick={() => setType('text')} className={type === "text" ? 'active' : ''}>
-                <BsTextLeft size={40}/>
-                </div>
-                <div onClick={() => setType('files')} className={type === "files" ? 'active' : ''}>
-                    <PiFileTextDuotone size={40}/>
-                </div>
+
+        <div style={{backgroundColor: themeMode == 'light' ? 'white' : 'rgb(0 0 0 / 0%)'}} className='main-card'>
+            <div  className='card-sidebar '>
+                    <>
+                        <div onClick={() => setType('text')} className={type === "text" ? 'active' : ''}>
+                            <BsTextLeft size={40} />
+                        </div>
+                        <div onClick={() => setType('files')} className={type === "files" ? 'active' : ''}>
+                            <PiFileTextDuotone size={40} />
+                        </div>
+                    </>
             </div>
             <div className='card-container'>
                 {
@@ -169,7 +194,7 @@ function Home() {
                                     // setText(e.target.value)
                                     // setIsText(false)
                                     // }) */}
-                                <Textarea value={text} onChange={(e) => {
+                                <Textarea themeMode={themeMode} value={text} onChange={(e) => {
                                     setText(e.target.value)
                                     setIsText(false)
                                     }
@@ -190,7 +215,7 @@ function Home() {
                                 <div className='save-btn'>
                                     <span onClick={clearText}>{text && 'Clear'}</span>
                                     {
-                                        isText ? <Button onClick={() => {
+                                        isText ? <Button themeMode={themeMode} onClick={() => {
                                             navigator.clipboard.writeText(text)
                                         }} title={'Copy'} disabled={!text} /> :
                                         <Button onClick={saveChanges} title={'Save'} disabled={!text} />
@@ -205,10 +230,10 @@ function Home() {
                                 <h1>Files</h1>
                                 <div className='files-btn'>
                                     <div className='download-btn'>
-                                        <div><FaDownload size={22} /> Download All</div>
+                                        <div><FaDownload size={22} /> <span className='small'>Download All</span> </div>
                                     </div>
-                                    <div onClick={deleteAllFiles} className='delete-btn'>
-                                        <div><MdDelete size={22} /> Delete All</div>
+                                    <div style={{color: themeMode != 'light' && 'red'}} onClick={deleteAllFiles} className='delete-btn'>
+                                        <div><MdDelete size={22} /> <span className='small'>Delete All</span> </div>
                                     </div>
                                 </div>
                             </div>
@@ -228,8 +253,8 @@ function Home() {
                 }
             </div>
         </div>
-
     </div>
+    </ThemeProvider>
   )
 }
 

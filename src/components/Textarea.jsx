@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import './index.scss'
-function Textarea({ value, onChange }) {
+function Textarea({ value, onChange, themeMode }) {
   const textRef = useRef();
   const handleTextResize = () => {
     textRef.current.style.height = '20px';
@@ -13,7 +13,7 @@ function Textarea({ value, onChange }) {
 
   return (
     <div>
-      <textarea value={value} onChange={onChange} onInput={handleTextResize} ref={textRef} placeholder='Type something...' className='text-area'></textarea>
+      <textarea style={{backgroundColor: themeMode == 'light' ? 'white' : 'rgb(244 238 238 / 0%)', color: themeMode === 'light' ? 'black' : 'white'}} value={value} onChange={onChange} onInput={handleTextResize} ref={textRef} placeholder='Type something...' className='text-area'></textarea>
     </div>
   )
 }
